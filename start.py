@@ -63,9 +63,6 @@ frame_delay = 150
 last_update = pygame.time.get_ticks()
 
 # Colors and Fonts
-BED_BROWN = (139, 69, 19)
-BLANKET_RED = (255, 111, 97)
-HEAD_COLOR = (253, 213, 177)
 SOFT_PINK = (255, 182, 193)
 BLACK = (0, 0, 0)
 GLOW_COLOR = (255, 255, 255)
@@ -100,23 +97,14 @@ def draw_start_page():
 
     screen.blit(background_frames[current_frame], (0, 0))
 
-    # Draw bed and person
-    bed_rect = pygame.Rect(WIDTH//2 - 225, HEIGHT//2, 450, 75)
-    pygame.draw.rect(screen, BED_BROWN, bed_rect, border_radius=10)
-
-    head_rect = pygame.Rect(WIDTH//2 - 35, HEIGHT//2 - 75, 70, 70)
-    pygame.draw.ellipse(screen, HEAD_COLOR, head_rect)
-
-    blanket_rect = pygame.Rect(WIDTH//2 - 55, HEIGHT//2 - 15, 110, 55)
-    pygame.draw.rect(screen, BLANKET_RED, blanket_rect, border_radius=10)
-
     # Draw glowing text
     draw_text_with_glow("Dream Dash", font, TEXT_COLOR, GLOW_COLOR, (WIDTH//2, HEIGHT//2 - 200))
 
-    # Animate person image jump using sine wave
+    # Animate person image jump using sine wave (centered above button)
     jump_time += jump_speed * clock.get_time()
     jump_offset = int(jump_amplitude * math.sin(jump_time))
-    person_rect = person_image.get_rect(bottomleft=(20, HEIGHT - 20 + jump_offset))
+
+    person_rect = person_image.get_rect(center=(WIDTH//2, button_rect.top - 100 + jump_offset))
     screen.blit(person_image, person_rect)
 
     # Draw start button
