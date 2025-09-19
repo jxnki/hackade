@@ -13,7 +13,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        screen.fill((255, 255, 255))  # white background
+        screen.fill((255, 255, 255))  # white background 
         pygame.display.flip()
         clock.tick(60)
 
