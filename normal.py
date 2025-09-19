@@ -131,13 +131,25 @@ while running:
             obs["rect"].x -= platform_speed
             screen.blit(obs["img"], obs["rect"])
 
-            # Collision
-            collision_rect = player_rect.inflate(-20, -10)
-            if collision_rect.colliderect(obs["rect"]):
-                obstacles.remove(obs)
-                lives -= 1
-                if lives <= 0:
-                    game_over = True
+
+            # Improved collision: check rectangle overlap and center distance
+            if player_rect.colliderect(obs["rect"]):
+                player_center_x = player_rect.centerx
+                player_center_y = player_rect.centery
+                obs_center_x = obs["rect"].centerx
+                obs_center_y = obs["rect"].centery
+
+                distance_x = abs(player_center_x - obs_center_x)
+                distance_y = abs(player_center_y - obs_center_y)
+
+                min_distance_x = (player_rect.width + obs["rect"].width) // 2 - 10
+                min_distance_y = (player_rect.height + obs["rect"].height) // 2 - 10
+
+                if distance_x < min_distance_x and distance_y < min_distance_y:
+                    obstacles.remove(obs)
+                    lives -= 1
+                    if lives <= 0:
+                        game_over = True
 
             # Remove offscreen obstacles
             elif obs["rect"].right < 0:
