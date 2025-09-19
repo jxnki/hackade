@@ -2,6 +2,8 @@ import start
 import first
 import normal
 import control_shift
+import neon
+import slope
 import pygame
 import sys
 
@@ -20,13 +22,32 @@ def main():
         return
 
     # Normal stage for 25 seconds
-    lives = normal.run_normal(lives, duration=25)
+    lives = normal.run_normal(lives, duration=5)
+    if lives <= 0:
+        game_over()
+        return
+    # --- short blackout before control_shift ---
+    screen = pygame.display.set_mode((800, 400))
+    black = pygame.Surface(screen.get_size())
+    black.fill((0, 0, 0))
+    screen.blit(black, (0, 0))
+    pygame.display.flip()
+    pygame.time.delay(300) 
+
+    # Control Shift stage for 25 seconds
+    lives = control_shift.run_control_shift(lives, duration=25)
     if lives <= 0:
         game_over()
         return
 
-    # Control Shift stage for 25 seconds
-    lives = control_shift.run_control_shift(lives, duration=25)
+    # Neon stage for 25 seconds
+    lives = neon.run_neon(lives, duration=25)
+    if lives <= 0:
+        game_over()
+        return
+
+    # Slope stage for 25 seconds
+    lives = slope.run_slope(lives, duration=25)
     if lives <= 0:
         game_over()
         return
