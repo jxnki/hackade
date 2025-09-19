@@ -40,7 +40,7 @@ while running:
             running = False
 
     # Fill background
-    screen.fill((255, 255, 255))  # white
+    screen.fill((132, 213, 167))  # white
 
     # Draw platform(s)
     for plat in platforms:
@@ -58,3 +58,4 @@ while running:
     clock.tick(30)
 
 pygame.quit()
+
