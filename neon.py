@@ -20,6 +20,20 @@ def run_neon(lives, duration=25):
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
     ASSETS_DIR = os.path.join(SCRIPT_DIR, "assets")
 
+    # Load and position neon.png banner (after WIDTH, HEIGHT, ASSETS_DIR are defined)
+    try:
+        banner_img = pygame.image.load(os.path.join(ASSETS_DIR, "neon.png")).convert_alpha()
+        banner_width = 700
+        banner_height = 700
+        banner_img = pygame.transform.scale(banner_img, (banner_width, banner_height))
+        banner_rect = banner_img.get_rect()
+        banner_rect.centerx = WIDTH // 2
+        banner_rect.top = 4
+    except Exception:
+        banner_img = None
+
+    banner_start_time = pygame.time.get_ticks()
+
     # --- Load obstacle images ---
     obstacle_images = {
         'wood': pygame.transform.scale(
@@ -114,6 +128,11 @@ def run_neon(lives, duration=25):
             platform_color = random.choice([c for c in neon_colors if c != bg_color])
 
         screen.fill(bg_color)
+
+        # --- Draw banner at top center (disappear after 3s) ---
+        if banner_img:
+            if pygame.time.get_ticks() - banner_start_time < 3000:
+                screen.blit(banner_img, banner_rect)
 
         # --- Event handling ---
         for event in pygame.event.get():

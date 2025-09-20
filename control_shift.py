@@ -97,6 +97,18 @@ def run_control_shift(lives, duration=25):
 
     start_time = time.time()
 
+    # Load and position remo.png banner
+    try:
+        banner_img = pygame.image.load(os.path.join(ASSETS_DIR, "remo.png")).convert_alpha()
+        banner_width = 300
+        banner_height = 300
+        banner_img = pygame.transform.scale(banner_img, (banner_width, banner_height))
+        banner_rect = banner_img.get_rect()
+        banner_rect.center = (WIDTH // 2, HEIGHT // 2)
+    except Exception:
+        banner_img = None
+
+    banner_start_time = pygame.time.get_ticks()
     running = True
     while running:
         clock.tick(FPS)
@@ -194,6 +206,11 @@ def run_control_shift(lives, duration=25):
 
         # --- Drawing ---
         screen.fill((135, 206, 250))  # sky blue
+
+        # --- Draw banner at center (disappear after 3s) ---
+        if banner_img:
+            if pygame.time.get_ticks() - banner_start_time < 3000:
+                screen.blit(banner_img, banner_rect)
 
         # Platforms
         pygame.draw.rect(screen, BROWN_COLOR, top_platform_rect)

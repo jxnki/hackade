@@ -58,7 +58,21 @@ def run_first(lives):
     portal_y = platform_y - portal_radius
     portal_rect = pygame.Rect(portal_x, portal_y, portal_radius*2, portal_radius*2)
 
+    # Load and position high.png banner
+    try:
+        banner_img = pygame.image.load("assets/high.png").convert_alpha()
+        banner_width = 700
+        banner_height = 700
+        banner_img = pygame.transform.scale(banner_img, (banner_width, banner_height))
+        banner_rect = banner_img.get_rect()
+        banner_rect.centerx = WIDTH // 2
+        banner_rect.top = 4
+    except Exception:
+        banner_img = None
+
     selected_idx = None
+
+    banner_start_time = pygame.time.get_ticks()
     running = True
     while running:
         clock.tick(FPS)
@@ -75,6 +89,11 @@ def run_first(lives):
                         selected_idx = idx
                 for i, p in enumerate(players):
                     p.selected = (i == selected_idx)
+
+        # --- Draw banner at top center (disappear after 3s) ---
+        if banner_img:
+            if pygame.time.get_ticks() - banner_start_time < 3000:
+                screen.blit(banner_img, banner_rect)
 
         # --- Draw platform ---
         pygame.draw.rect(screen, (139, 69, 19), (0, platform_y, WIDTH, platform_height))
