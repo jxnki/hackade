@@ -66,10 +66,28 @@ def run_normal(lives, duration=25):
     portal_x = WIDTH - 100
     portal_y = platform_y - 120
 
+    # Load and position normal.png banner
+    try:
+        banner_img = pygame.image.load("assets/normal.png").convert_alpha()
+        banner_width = 700
+        banner_height = 700
+        banner_img = pygame.transform.scale(banner_img, (banner_width, banner_height))
+        banner_rect = banner_img.get_rect()
+        banner_rect.centerx = WIDTH // 2
+        banner_rect.top = 4
+    except Exception:
+        banner_img = None
+
+    banner_start_time = pygame.time.get_ticks()
     running = True
     while running:
         clock.tick(FPS)
         screen.fill((135, 206, 235))  # sky blue background
+
+        # --- Draw banner at top center (disappear after 3s) ---
+        if banner_img:
+            if pygame.time.get_ticks() - banner_start_time < 3000:
+                screen.blit(banner_img, banner_rect)
 
         # End after duration
         if time.time() - start_time >= duration:
