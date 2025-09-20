@@ -1,5 +1,6 @@
 # transition.py
 import pygame
+import os
 import sys
 import time
 
@@ -12,6 +13,15 @@ def portal_transition(screen, player_rect, player_surf, portal_frames,
     clock = pygame.time.Clock()
     start = time.time()
     WIDTH, HEIGHT = screen.get_size()
+    # Load and play portal opening sound
+    portal_sound_path = os.path.join("assets", "audio/portalopen.mp3")
+    if os.path.exists(portal_sound_path):
+        try:
+            pygame.mixer.init()
+            portal_open_sound = pygame.mixer.Sound(portal_sound_path)
+            portal_open_sound.play()
+        except Exception as e:
+            print(f"Could not play portal sound: {e}")
 
     # Portal position (right edge, vertically centered)
     portal_center = (WIDTH - 120, HEIGHT // 2)
