@@ -40,8 +40,16 @@ def main():
         game_over()
         return
 
-    # Neon stage for 25 seconds
+    # --- Insert Dark Stage ---
+    import dark
+    lives = dark.run_dark(lives, duration=25)
+
+    if lives <= 0:
+        game_over()
+        return
+
     lives = neon.run_neon(lives, duration=25)
+
     if lives <= 0:
         game_over()
         return

@@ -3,8 +3,7 @@ import sys
 import os
 import random
 import time
-from transition import portal_transition
-
+from transition import portal_transition  # kept import, not used here but harmless
 
 def run_slope(lives, duration=25):
     pygame.init()
@@ -104,14 +103,24 @@ def run_slope(lives, duration=25):
     invulnerable_timer = 0
     invulnerable_duration = 60
 
+    # --- Oval (special big visual) setup ---
+    oval_active = False
+    oval_rect = None
+    # Oval size (big)
+    OVAL_WIDTH = 260
+    OVAL_HEIGHT = 160
+    # Color for oval (you can tweak)
+    OVAL_COLOR = (20, 20, 30)  # dark oval (visible against sky)
+
     start_time = time.time()
 
     running = True
     while running:
         clock.tick(FPS)
 
-        # End after duration
-        if time.time() - start_time >= duration:
+        # --- Timer & end-of-stage ---
+        time_elapsed = time.time() - start_time
+        if time_elapsed >= duration:
             return max(0, lives)
 
         for event in pygame.event.get():
@@ -174,6 +183,27 @@ def run_slope(lives, duration=25):
             if obstacle['rect'].right < 0:
                 obstacles.remove(obstacle)
 
+        # --- Oval spawn at duration - 2 seconds (e.g. 23s) ---
+        # Spawn only once
+        if (not oval_active) and (time_elapsed >= max(0, duration - 2)):
+            # Start slightly off-screen to the right so it scrolls in
+            spawn_x = WIDTH + 50
+            spawn_midbottom_y = get_slope_height_at_x(spawn_x, slope_x, slope_y)
+            oval_rect = pygame.Rect(0, 0, OVAL_WIDTH, OVAL_HEIGHT)
+            oval_rect.midbottom = (spawn_x, spawn_midbottom_y)
+            oval_active = True
+
+        # Move oval like other obstacles (if active)
+        if oval_active and oval_rect:
+            oval_rect.x -= int(current_speed)  # move left at current_speed
+            # Update vertical position so it follows slope surface
+            oval_rect.bottom = get_slope_height_at_x(oval_rect.centerx, slope_x, slope_y)
+            # Remove if fully off left edge
+            if oval_rect.right < 0:
+                oval_active = False
+                oval_rect = None
+
+        # --- Collision / lives (unchanged) ---
         if invulnerable_timer <= 0:
             for obstacle in obstacles[:]:
                 if player_rect.colliderect(obstacle['rect']):
@@ -193,10 +223,20 @@ def run_slope(lives, duration=25):
             anim_timer = 0
         player_index = int(anim_timer)
 
+        # --- Draw ---
         screen.fill((135, 206, 250))
         pygame.draw.polygon(screen, BROWN_COLOR, slope_points)
+
         for obstacle in obstacles:
             screen.blit(obstacle['image'], obstacle['rect'])
+
+        # Draw the oval (above obstacles so it's noticeable)
+        if oval_active and oval_rect:
+            # Draw filled ellipse
+            pygame.draw.ellipse(screen, OVAL_COLOR, oval_rect)
+            # Optional: draw a thin outline for visibility
+            pygame.draw.ellipse(screen, (0, 0, 0), oval_rect, 3)
+
         if invulnerable_timer <= 0 or invulnerable_timer % 10 < 5:
             screen.blit(player_images[player_index], player_rect)
         lives_text = font.render(f"Lives: {lives}", True, (255, 0, 0))
