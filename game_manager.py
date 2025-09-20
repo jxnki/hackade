@@ -13,6 +13,16 @@ import sys
 
 def main():
     pygame.init()
+    # Play background music
+    import os
+    pygame.mixer.init()
+    bg_music_path = os.path.join("assets", "audio/bg.mp3")
+    if os.path.exists(bg_music_path):
+        try:
+            pygame.mixer.music.load(bg_music_path)
+            pygame.mixer.music.play(-1)  # Loop forever
+        except Exception as e:
+            print(f"Could not play background music: {e}")
 
     # Start screen
     start.run_start_page()
