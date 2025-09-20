@@ -12,16 +12,17 @@ def run_dark(lives, duration=25):
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Dark Level with Torch Cone")
 
-    # Load and position dark.png banner
+    # Load and position dark.png banner at topmost
     try:
         banner_img = pygame.image.load("assets/dark.png").convert_alpha()
         banner_width = 700
         banner_height = 700
         banner_img = pygame.transform.scale(banner_img, (banner_width, banner_height))
         banner_rect = banner_img.get_rect()
-        banner_rect.left = 0
-        banner_rect.bottom = HEIGHT
+        banner_rect.centerx = WIDTH // 2
+        banner_rect.top = 4
     except Exception:
+        print("Could not load banner image assets/dark.png")
         banner_img = None
 
     banner_start_time = pygame.time.get_ticks()
@@ -75,11 +76,9 @@ def run_dark(lives, duration=25):
         clock.tick(FPS)
         # Background
         screen.fill((0, 0, 0))
-
         # Platform
         pygame.draw.rect(screen, platform_color, (0, platform_y, WIDTH, platform_height))
-
-        # --- Draw banner at bottom left (disappear after 3s) ---
+        # --- Draw banner at topmost (disappear after 3s) ---
         if banner_img and pygame.time.get_ticks() - banner_start_time < 3000:
             screen.blit(banner_img, banner_rect)
 

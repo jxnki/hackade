@@ -1,10 +1,27 @@
 # car_ride.py
 import pygame
-import sys
+    # removed unused sys import
 import random
 import time
 
 def run_car_ride(lives, duration=25):
+    WIDTH, HEIGHT = 1280, 720
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Dream Dash - Car Ride")
+
+    # Load and position carpic.png banner (after WIDTH, HEIGHT are defined)
+    try:
+        banner_img = pygame.image.load("assets/carpic.png").convert_alpha()
+        banner_width = 700
+        banner_height = 700
+        banner_img = pygame.transform.scale(banner_img, (banner_width, banner_height))
+        banner_rect = banner_img.get_rect()
+        banner_rect.centerx = WIDTH // 2
+        banner_rect.top = 4
+    except Exception:
+        banner_img = None
+
+    banner_start_time = pygame.time.get_ticks()
     pygame.init()
     # Load arrow sound
     pygame.mixer.init()
@@ -66,6 +83,11 @@ def run_car_ride(lives, duration=25):
     while running:
         clock.tick(FPS)
         screen.fill(BG_COLOR)
+
+        # --- Draw banner at top center (disappear after 3s) ---
+        if banner_img:
+            if pygame.time.get_ticks() - banner_start_time < 3000:
+                screen.blit(banner_img, banner_rect)
 
         # End after duration
         if time.time() - start_time >= duration:
