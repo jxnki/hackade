@@ -6,9 +6,9 @@ import math
 import os
 import time
 
-def run_dark(lives, duration=25):
+def run_dark(lives, duration=15):
     pygame.init()
-    WIDTH, HEIGHT = 1280, 720
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Dark Level with Torch Cone")
 

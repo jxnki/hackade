@@ -5,9 +5,9 @@ import random
 import os
 import time
 
-def run_highspeed(lives, duration=25):
+def run_highspeed(lives, duration=15):
     pygame.init()
-    WIDTH, HEIGHT = 1280, 720
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - High Speed Runner")
 

@@ -5,9 +5,12 @@ import time
 from transition import portal_transition  # NEW
 
 
-def run_normal(lives, duration=25):
+def run_normal(lives, duration=15):
     pygame.init()
-    WIDTH, HEIGHT = 1280, 720
+    # Load jump sound
+    pygame.mixer.init()
+    jump_sound = pygame.mixer.Sound("assets/audio/jump.mp3")
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Runner Version")
 
@@ -110,6 +113,7 @@ def run_normal(lives, duration=25):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] and player_rect.bottom >= platform_y:
             player_vel_y = -jump_strength
+            jump_sound.play()
 
         # Gravity
         player_vel_y += gravity

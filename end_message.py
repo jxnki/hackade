@@ -7,7 +7,7 @@ import time
 
 def run_end_message():
     pygame.init()
-    WIDTH, HEIGHT = 1280, 720
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Over")
 
@@ -17,8 +17,9 @@ def run_end_message():
     bg_img = pygame.image.load(bg_path).convert()
     bg_img = pygame.transform.scale(bg_img, (WIDTH, HEIGHT))
 
-    font = pygame.font.SysFont(None, 80)  # big font
-    message = "Keep sleeping!! Hope you liked the dream"
+    # Use a smaller font and wrap text if needed
+    font = pygame.font.SysFont(None, 48)
+    message = "Keep sleeping!!\nHope you liked the dream"
 
     start_time = time.time()
     running = True
@@ -29,17 +30,21 @@ def run_end_message():
         elapsed = time.time() - start_time
         glow_alpha = int((math.sin(elapsed * 2) + 1) * 127)  # 0–255
 
-        text_surface = font.render(message, True, (0, 255, 255))
-        text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-
-        # Glow (draw text slightly bigger with alpha)
-        glow_surface = font.render(message, True, (0, 255, 255))
-        glow_surface = pygame.transform.scale(glow_surface, (text_rect.width + 10, text_rect.height + 10))
-        glow_rect = glow_surface.get_rect(center=text_rect.center)
-        glow_surface.set_alpha(glow_alpha)
-
-        screen.blit(glow_surface, glow_rect)
-        screen.blit(text_surface, text_rect)
+        # Render each line separately and stack vertically
+        lines = message.split("\n")
+        surfaces = [font.render(line, True, (0, 255, 255)) for line in lines]
+        heights = [surf.get_height() for surf in surfaces]
+        total_height = sum(heights) + (len(heights) - 1) * 10
+        y_start = HEIGHT // 2 - total_height // 2
+        for i, surf in enumerate(surfaces):
+            x = WIDTH // 2 - surf.get_width() // 2
+            y = y_start + sum(heights[:i]) + i * 10
+            # Glow for each line
+            glow_surface = pygame.transform.scale(surf, (surf.get_width() + 10, surf.get_height() + 10))
+            glow_surface.set_alpha(glow_alpha)
+            glow_rect = glow_surface.get_rect(center=(WIDTH // 2, y + surf.get_height() // 2))
+            screen.blit(glow_surface, glow_rect)
+            screen.blit(surf, (x, y))
 
         pygame.display.flip()
 

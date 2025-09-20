@@ -5,9 +5,9 @@ import random
 import time
 from transition import portal_transition  # kept import, not used here but harmless
 
-def run_slope(lives, duration=25):
+def run_slope(lives, duration=15):
     pygame.init()
-    WIDTH, HEIGHT = 1280, 720
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Slope Platform Scene")
     clock = pygame.time.Clock()
@@ -18,6 +18,9 @@ def run_slope(lives, duration=25):
     PLAYER_DIR = os.path.join(SCRIPT_DIR, "assets", "players")
     ASSETS_DIR = os.path.join(SCRIPT_DIR, "assets")
 
+    # --- Load jump sound ---
+    pygame.mixer.init()
+    jump_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIR, "audio/jump.mp3"))
     # --- Load obstacle images ---
     obstacle_images = {
         'wood': pygame.transform.scale(
@@ -142,6 +145,7 @@ def run_slope(lives, duration=25):
         if not on_ground and player_rect.bottom >= slope_height_at_player:
             player_rect.bottom = slope_height_at_player
             gravity = 0
+            jump_sound.play()
             on_ground = True
         elif on_ground:
             player_rect.bottom = slope_height_at_player

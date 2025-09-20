@@ -5,11 +5,11 @@ import os
 import time
 from transition import portal_transition
 
-def run_neon(lives, duration=25):
+def run_neon(lives, duration=15):
     pygame.init()
 
     # Screen setup
-    WIDTH, HEIGHT = 1280, 720
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Full Neon Mode")
 

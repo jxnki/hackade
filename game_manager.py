@@ -36,7 +36,7 @@ def main():
         return
 
     # Normal stage
-    lives = normal.run_normal(lives, duration=25)
+    lives = normal.run_normal(lives, duration=15)
     if lives <= 0:
         game_over()
         return
@@ -50,37 +50,37 @@ def main():
     pygame.time.delay(300)
 
     # Control Shift stage
-    lives = control_shift.run_control_shift(lives, duration=25)
+    lives = control_shift.run_control_shift(lives, duration=15)
     if lives <= 0:
         game_over()
         return
 
     # Dark stage
-    lives = dark.run_dark(lives, duration=25)
+    lives = dark.run_dark(lives, duration=15)
     if lives <= 0:
         game_over()
         return
 
     # Neon stage
-    lives = neon.run_neon(lives, duration=25)
+    lives = neon.run_neon(lives, duration=15)
     if lives <= 0:
         game_over()
         return
 
     # Slope stage
-    lives = slope.run_slope(lives, duration=25)
+    lives = slope.run_slope(lives, duration=15)
     if lives <= 0:
         game_over()
         return
 
     # Car Ride stage
-    lives = car_ride.run_car_ride(lives, duration=25)
+    lives = car_ride.run_car_ride(lives, duration=15)
     if lives <= 0:
         game_over()
         return
 
     # High Speed stage
-    lives = highspeed.run_highspeed(lives, duration=25)
+    lives = highspeed.run_highspeed(lives, duration=15)
     if lives <= 0:
         game_over()
         return

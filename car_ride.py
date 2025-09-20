@@ -4,8 +4,8 @@ import pygame
 import random
 import time
 
-def run_car_ride(lives, duration=25):
-    WIDTH, HEIGHT = 1280, 720
+def run_car_ride(lives, duration=15):
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Car Ride")
 
@@ -26,6 +26,8 @@ def run_car_ride(lives, duration=25):
     # Load arrow sound
     pygame.mixer.init()
     arrow_sound = pygame.mixer.Sound("assets/audio/arrow.mp3")
+    # Load jump sound
+    jump_sound = pygame.mixer.Sound("assets/audio/jump.mp3")
 
     WIDTH, HEIGHT = 1280, 720
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -104,6 +106,7 @@ def run_car_ride(lives, duration=25):
         if player_mode == "run":
             if keys[pygame.K_UP] and player_rect.bottom >= HEIGHT - 50:
                 vel_y = -jump_power
+                jump_sound.play()
             vel_y += gravity
             player_rect.y += vel_y
             if player_rect.bottom > HEIGHT - 50:
@@ -123,6 +126,7 @@ def run_car_ride(lives, duration=25):
         elif player_mode == "car":
             if keys[pygame.K_UP]:
                 car_vel_y = -8
+                jump_sound.play()
             elif keys[pygame.K_DOWN]:
                 car_vel_y = 8
             else:

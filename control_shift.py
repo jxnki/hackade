@@ -6,14 +6,14 @@ import time
 from transition import portal_transition
 
 
-def run_control_shift(lives, duration=25):
+def run_control_shift(lives, duration=15):
     """
     Ceiling-walking stage. Accepts current lives, runs for `duration` seconds (unless lives drop to 0),
     and returns remaining lives (or 0 if game over).
     """
 
     pygame.init()
-    WIDTH, HEIGHT = 1280, 720
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Ceiling-Walking Platformer")
     clock = pygame.time.Clock()
@@ -23,6 +23,10 @@ def run_control_shift(lives, duration=25):
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
     PLAYER_DIR = os.path.join(SCRIPT_DIR, "assets", "players")
     ASSETS_DIR = os.path.join(SCRIPT_DIR, "assets")
+
+    # Load jump sound
+    pygame.mixer.init()
+    jump_sound = pygame.mixer.Sound(os.path.join(ASSETS_DIR, "audio/jump.mp3"))
 
     # --- Load obstacle images (upside down for ceiling) ---
     obstacle_images = {
@@ -178,6 +182,7 @@ def run_control_shift(lives, duration=25):
             if on_ceiling and gravity == 0:
                 gravity = jump_power
                 on_ceiling = False
+                jump_sound.play()
 
         # Apply inverted gravity if mid-air
         if not on_ceiling and not on_floor:

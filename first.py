@@ -5,7 +5,7 @@ import random
 
 def run_first(lives):
     pygame.init()
-    WIDTH, HEIGHT = 1280, 720
+    WIDTH, HEIGHT = 900, 650
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Select the Correct Player")
     clock = pygame.time.Clock()
