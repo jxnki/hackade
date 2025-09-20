@@ -6,6 +6,9 @@ import time
 
 def run_car_ride(lives, duration=25):
     pygame.init()
+    # Load arrow sound
+    pygame.mixer.init()
+    arrow_sound = pygame.mixer.Sound("assets/audio/arrow.mp3")
 
     WIDTH, HEIGHT = 1280, 720
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -131,6 +134,9 @@ def run_car_ride(lives, duration=25):
                         if lives <= 0:
                             return 0
                 if obstacle['rect'].right < 0:
+                    # Play arrow sound when arrow passes the car
+                    if obstacle['type'] == 'arrow':
+                        arrow_sound.play()
                     obstacles.remove(obstacle)
 
             if collision_flash > 0:
