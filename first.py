@@ -80,9 +80,8 @@ def run_first(lives):
         pygame.draw.rect(screen, (139, 69, 19), (0, platform_y, WIDTH, platform_height))
 
         # --- Draw portal ---
-        pygame.draw.circle(screen, (0, 0, 0),
-                           (portal_x + portal_radius, portal_y + portal_radius),
-                           portal_radius)
+        pygame.draw.ellipse(screen, (0, 0, 0),
+                           (portal_x - 20, 20, portal_radius*2 + 40, HEIGHT - 40))
 
         # --- Update & draw players ---
         keys = pygame.key.get_pressed()

@@ -29,11 +29,11 @@ def load_gif_frames(gif_path):
     return frames
 
 # === Load background GIF ===
-gif_filename = r"C:\Users\elmaa\Desktop\hackade\assets\bgstart.gif"
+gif_filename = r"assets/bgstart.gif"
 background_frames = load_gif_frames(gif_filename)
 
 # === Load person image ===
-person_image_path = r"C:\Users\elmaa\Desktop\hackade\assets\players\person0.png"
+person_image_path = r"assets/players/person0.png"
 person_image = pygame.image.load(person_image_path).convert_alpha()
 person_image = pygame.transform.scale(person_image, (150, 150))
 
