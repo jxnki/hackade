@@ -13,7 +13,7 @@ def run_control_shift(lives, duration=25):
     """
 
     pygame.init()
-    WIDTH, HEIGHT = 800, 400
+    WIDTH, HEIGHT = 1280, 720
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Ceiling-Walking Platformer")
     clock = pygame.time.Clock()

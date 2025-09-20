@@ -7,7 +7,7 @@ from transition import portal_transition  # kept import, not used here but harml
 
 def run_slope(lives, duration=25):
     pygame.init()
-    WIDTH, HEIGHT = 800, 400
+    WIDTH, HEIGHT = 1280, 720
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Slope Platform Scene")
     clock = pygame.time.Clock()

@@ -9,7 +9,7 @@ def run_neon(lives, duration=25):
     pygame.init()
 
     # Screen setup
-    WIDTH, HEIGHT = 800, 400
+    WIDTH, HEIGHT = 1280, 720
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Full Neon Mode")
 

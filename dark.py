@@ -10,7 +10,7 @@ def run_dark(lives, duration=25):
     pygame.init()
 
     # Screen setup
-    WIDTH, HEIGHT = 800, 500
+    WIDTH, HEIGHT = 1280, 720
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Dark Level with Torch Cone")
 
@@ -93,7 +93,7 @@ def run_dark(lives, duration=25):
                             if clicked_object["name"] in ["stone.png", "wood.png", "arrow.png", "bush.png"]:
                                 lives -= 1
                             else:
-                                lives = min(lives + 1, 5)
+                                lives +=1
                             if lives <= 0:
                                 return 0
                 elif torch_moves < MAX_TORCH_MOVES:
