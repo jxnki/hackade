@@ -8,11 +8,23 @@ import time
 
 def run_dark(lives, duration=25):
     pygame.init()
-
-    # Screen setup
     WIDTH, HEIGHT = 1280, 720
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dream Dash - Dark Level with Torch Cone")
+
+    # Load and position dark.png banner
+    try:
+        banner_img = pygame.image.load("assets/dark.png").convert_alpha()
+        banner_width = 700
+        banner_height = 700
+        banner_img = pygame.transform.scale(banner_img, (banner_width, banner_height))
+        banner_rect = banner_img.get_rect()
+        banner_rect.left = 0
+        banner_rect.bottom = HEIGHT
+    except Exception:
+        banner_img = None
+
+    banner_start_time = pygame.time.get_ticks()
 
     clock = pygame.time.Clock()
     FPS = 60
@@ -61,6 +73,15 @@ def run_dark(lives, duration=25):
     running = True
     while running:
         clock.tick(FPS)
+        # Background
+        screen.fill((0, 0, 0))
+
+        # Platform
+        pygame.draw.rect(screen, platform_color, (0, platform_y, WIDTH, platform_height))
+
+        # --- Draw banner at bottom left (disappear after 3s) ---
+        if banner_img and pygame.time.get_ticks() - banner_start_time < 3000:
+            screen.blit(banner_img, banner_rect)
 
         # --- End after duration ---
         if time.time() - start_time >= duration:
@@ -69,7 +90,8 @@ def run_dark(lives, duration=25):
         # Events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit(); sys.exit()
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
                 clicked_object = None
